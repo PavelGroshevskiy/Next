@@ -1,22 +1,37 @@
+import { useFilter } from "../hooks/useFilter";
+import userInput from "../hooks/useInput";
 
-import { useMemo, useState } from "react"
-import { useFilter } from "../hooks/useFilter"
+const Posts = ({ posts }: any) => {
+  const { value, onChange } = userInput("");
+  const { SortAsc, SortDesc, filtered } = useFilter(posts, {
+    filter: { value: value },
+    sort: "ASC",
+  });
 
-const Posts = ({posts}) => {
-
-  const {result} = useFilter(posts, {filter: {value:'h'}, sort:'ASC'})
-
-	return (
-
-		<div>
-			<h1> List of Posts </h1>
+  return (
+    <div>
+      <h1> List of Posts </h1>
+      <input type="text" value={value} onChange={onChange} />
+      <button onClick={() => SortAsc()} style={{ marginLeft: "20px" }}>
+        {" "}
+        Sort asc{" "}
+      </button>
+      <button onClick={() => SortDesc()} style={{ marginLeft: "20px" }}>
+        {" "}
+        Sort desc{" "}
+      </button>
       <div>
-        {result}
+        {Array.from(filtered, (filtered) => (
+          <div key={filtered.id}>
+            <h2>id: {filtered.id} </h2>
+            <h2>title: {filtered.title}</h2>
+            <p>body: {filtered.body}</p>
+            <hr />
+          </div>
+        ))}
       </div>
-		</div>
+    </div>
+  );
+};
 
-	)
-}
-
-export default Posts
-
+export default Posts;

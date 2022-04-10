@@ -1,41 +1,36 @@
-
 import { useEffect, useMemo, useState } from "react";
 import { IOptions, Post } from "../types/types";
 
-export const useFilter = (arr: Post[], {sort, filter}: IOptions) => {
-  const [items, setItems] = useState(arr)
+export const useFilter = (arr: Post[], { sort, filter }: IOptions) => {
+  const [items, setItems] = useState(arr);
+  const [sorted, setSorted] = useState(sort);
 
-	const filtered = useMemo( () => {
-    return items.filter( item => item.body.toLocaleLowerCase().includes(filter.value) )
-  }, [filter.value] )
-		
-		const SortAsc = () => {
-			filtered.sort((b,a)=>a.id-b.id)
-		}
+  const filtered = useMemo(() => {
+    return items.filter((item) =>
+      item.body.toLocaleLowerCase().includes(filter.value)
+    );
+  }, [filter.value]);
 
-		const SortDesc = () => {
-			filtered.sort((a,b)=>a.id-b.id)
-		}
+  // const handleSort = (filtered:any) => {
 
-			sort === 'DESC' ? SortAsc() : SortDesc()
+  const SortAsc = () => {
+    filtered.sort((a: any, b: any) => a.id - b.id);
+    setSorted("ASC");
+  };
 
-		const result = (
-			<div>
-				{filtered.map(({id, title, body}) => (
-          
-          <div>
-              <h2>id: {id} </h2>
-              <h2>title: {title}</h2>
-              <p>body: {body}</p>
-              <hr/>
-          </div>
-          
-        ))}
-			</div>
-		)
+  const SortDesc = () => {
+    filtered.sort((b: any, a: any) => a.id - b.id);
+    setSorted("DESC");
+  };
+  // useEffect(() => {
+  // 	sorted === 'DESC' ? SortDesc() : SortAsc()
+  // },[])
 
-	return {
-		result
-	}
-}
+  // }
 
+  return {
+    filtered,
+    SortAsc,
+    SortDesc,
+  };
+};
