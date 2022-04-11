@@ -12,7 +12,7 @@ export const getStaticProps = async () => {
   };
 };
 
-const Home: NextPage = ({ posts }) => {
+const Home: NextPage = ({ posts }: any) => {
   return (
     <div className={styles.container}>
       <Head>
