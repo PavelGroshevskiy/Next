@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { IOptions, Post } from "../types/types";
 
 export const useFilter = (posts: Post[], { sort, filter }: IOptions) => {
