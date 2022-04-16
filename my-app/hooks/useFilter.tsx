@@ -1,36 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { IOptions, Post } from "../types/types";
 
-export const useFilter = (arr: Post[], { sort, filter }: IOptions) => {
-  const [items, setItems] = useState(arr);
-  const [sorted, setSorted] = useState(sort);
-
+export const useFilter = (posts: Post[], { sort, filter }: IOptions) => {
   const filtered = useMemo(() => {
-    return items.filter((item) =>
-      item.body.toLocaleLowerCase().includes(filter.value)
-    );
-  }, [filter.value]);
-
-  // const handleSort = (filtered:any) => {
-
-  const SortAsc = () => {
-    filtered.sort((a: any, b: any) => a.id - b.id);
-    setSorted("ASC");
-  };
-
-  const SortDesc = () => {
-    filtered.sort((b: any, a: any) => a.id - b.id);
-    setSorted("DESC");
-  };
-  // useEffect(() => {
-  // 	sorted === 'DESC' ? SortDesc() : SortAsc()
-  // },[])
-
-  // }
-
+    return posts
+      .filter((posts) => posts.body.toLocaleLowerCase().includes(filter.value))
+      .sort(({ id: a }, { id: b }) => (sort === "ASC" ? a - b : b - a));
+  }, [filter.value, sort]);
   return {
     filtered,
-    SortAsc,
-    SortDesc,
   };
 };
